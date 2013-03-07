@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+        Remove this if you use the .htaccess -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <title>Layers 3D Example</title>
+        <link rel="stylesheet" href="css/reset.css" type="text/css"/>
+        <link rel="stylesheet" href="css/drag_points.css" type="text/css"/>
+        <link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.21.custom.css" type="text/css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
+        <script src="dist/PerspectiveTransform.min.js"></script>
+    </head>
+    <body>
+        
+        <div id="info-container">
+            <div id="Header"><h1>Hover Around the image to see its layers in 3D.</h1></div>
+            <b>X Restrictor</b>
+            <div id="sliderx"></div>
+            <b>Y Restrictor</b>
+            <div id="slidery"></div>
+            <b>Z Restrictor</b>
+            <div id="sliderz"></div>
+            <p><b>Vehicle Price</b>7 char</p>
+            <div><input id="price" type="text" value="$000,000" onkeyup="changeprice(this.value)" onchange="changeprice(this.value)"></input></div>
+            <p><b>Vehicle Description</b>27 char</p>
+            <div><input id="script" type="text" value="2012 Prius PLug-in Hybrid" onkeyup="changescript(this.value)" onchange="changescript(this.value)"></input></div>
+        </div>
+
+        <div id="layerTopper">
+            <div class="xBtns"></div>
+        </div>
+        <div id="layerContainer">
+            <div class="LayerHeader row"></div>
+            <div class="row"><div class=" hr"></div></div>
+            
+            <div class="row layer">
+                <div class="col">
+                    <a class="toggle"></a>
+                </div>
+                <div class="col layerName">
+                    layer 1
+                </div>
+            </div>
+
+            <div class="row layer">
+                <div class="col">
+                    <a class="toggle"></a>
+                </div>
+                <div class="col layerName">
+                    layer 2
+                </div>
+            </div>
+
+            <div class="row layer">
+                <div class="col">
+                    <a class="toggle"></a>
+                </div>
+                <div class="col layerName">
+                    layer 3
+                </div>
+            </div>
+
+            <div class="row layer">
+                <div class="col">
+                    <a class="toggle"></a>
+                </div>
+                <div class="col layerName">
+                    layer 4
+                </div>
+            </div>
+
+            <div class="row layer">
+                <div class="col">
+                    <a class="toggle"></a>
+                </div>
+                <div class="col layerName">
+                    layer 5
+                </div>
+            </div>
+
+            <!--<div class="row finalLayer"></div>-->
+            <div class="LayerFooter row"></div>
+        </div>
+
+        <div id="Bgcontainer">
+            <div class="bgAlignment">    
+                <div class="row center">
+                    <div class="col psIco"></div>
+                    <div class="col">iSpot Layer Demo @100% (RGB/8)*</div>
+                    <div class="aeroBtns"></div>
+                </div>
+
+                <div class="row wMiddleTop"></div>
+                <div class="row wMiddleMiddle"></div>
+                <div class="row wMiddleBot"></div>
+            </div>
+        </div>
+
+
+        <div id="container">
+            <div id="marker"></div>
+            <div class="img">
+                <div class="spacer dynamicImg">
+                    <div class="layerimage L2"></div>
+                </div>
+            </div>
+
+            <div class="img">
+                <div class="spacer">
+                    <div class="layerimage L3"></div>
+                </div>
+            </div>
+
+            <div class="img">
+                <div id="picepoint" class="price">
+                    <p>$000,000</p>
+                </div>
+            </div>
+
+            <div class="img">
+                <div class="dynamic" id="scriptpoint">
+                    <p>2012 Prius Plug-in Hybrid</p>
+                </div>
+            </div>
+
+            <!--<div class="img L5"></div>-->
+            <div class="img">
+                <div class="spacer">
+                    <div class="layerimage L6"></div>
+                </div>
+            </div>
+
+        </div>
+         <div id="proxyContainer"></div>
+
+         <script>
+            //the div holding the image stack
+            var container = $("#container");
+
+            //gets all the layers in the actual image stack
+            var img = $(".img");
+
+            var gogo = true;
+
+            //sets valus for a bunch of stuff Dynamic so script can adapt to different sized stuff
+            var IMG_WIDTH = img.width();
+            var IMG_HEIGHT = img.height();
+
+            //object sent to the transformation script
+            var transform = [];
+
+            //starting coordinates of image corners
+            var oCords = {
+                topLeft     : {x:0, y:0},
+                topRight    : {x:0, y:0},
+                bottomLeft  : {x:0, y:0},
+                bottomRight : {x:0, y:0}
+            };
+
+            //mouse position
+            var targetPoint = {x:0, y:0};
+
+            //modifiers from sliders affects 3D intensity
+            var xRes = 10;
+            var yRes = 3;
+            var zRes = 2;
+
+            $('a.toggle').each(function(index){
+                $(this).click(function(){
+                    $(this).toggleClass("down");
+                    $(".img").eq(-index -1).children().toggle();
+                });
+            });
+
+            //funtion to be done to each layer
+            $('.layerName').each(function(index){
+
+                //onclick make selected and find matching layer and add/subtract marching ants
+                $(this).click(function(){
+                    if($(this).hasClass("down")!== true){
+                        $('.layerName').each(function(index){
+                            $(this).removeClass("down");
+                            $(".img").eq(-index -1).children().removeClass("selected");
+                        });
+                    }
+                    $(this).toggleClass("down");
+                    $(".img").eq(-index -1).children().toggleClass("selected");
+                });
+            });
+
+            //3D sliders
+            $("#sliderx").slider({ max: 15, min: 5, value: 10, change: function(event, ui) {xRes = ui.value}});
+            $("#slidery").slider({ max: 10,  min: 1, value: 3,  change: function(event, ui) {yRes = ui.value}});
+            $("#sliderz").slider({ max: 10,  min: 1, value: 2,  change: function(event, ui) {zRes = ui.value}});
+
+
+            //self explanitory
+            function changeprice(str){
+                $("#picepoint").html(str);
+            };
+
+            function changescript(str){
+                $("#scriptpoint").html(str);
+            };
+
+            //sets proxy container(mouseover area) to the defined height and width at head of this doc
+            $("#proxyContainer").css({width:IMG_WIDTH , height : IMG_HEIGHT});
+
+            //The Magic lives here
+
+            //Creates Transform object
+            for(x=0; x < img.length; x++){
+                transform[x] = new PerspectiveTransform(img[x], IMG_WIDTH, IMG_HEIGHT, true);
+            }
+
+            //sets initial values for the transform
+            oCords.topLeft.x     = transform[0].topLeft.x
+            oCords.topLeft.y     = transform[0].topLeft.y
+            oCords.topRight.x    = transform[0].topRight.x
+            oCords.topRight.y    = transform[0].topRight.y
+            oCords.bottomLeft.x  = transform[0].bottomLeft.x
+            oCords.bottomLeft.y  = transform[0].bottomLeft.y
+            oCords.bottomRight.x = transform[0].bottomRight.x
+            oCords.bottomRight.y = transform[0].bottomRight.y
+
+            //records mousemovement relative to center of the proxy layer then sends coords to the transform function
+            $("#proxyContainer").mousemove(function(e){
+                 targetPoint.x = (e.pageX - container.offset().left - IMG_WIDTH/2 );
+                 targetPoint.y = (e.pageY - container.offset().top - IMG_HEIGHT/2 ) *-1;
+                 $("#marker").css({top:targetPoint.x, left:targetPoint.y})
+                 gogo = false;
+                 transformer();
+            });
+
+            //sets each point in transform based on mouse position then uses the number of images to add an offset value to all corners equally to give the 3D effect each portion of the equation is modified by the restrictor vars from the sliders. It then invokes the update function in the transform script.(Magic)
+            function transformer(){
+                for(n=0; n < transform.length; n++){
+                        transform[n].topLeft.x     = oCords.topLeft.x     - targetPoint.y/yRes + (n*targetPoint.x/xRes)/zRes;
+                        transform[n].topLeft.y     = oCords.topLeft.y     + targetPoint.x/xRes + (n*targetPoint.y/yRes)/zRes;
+                        
+                        transform[n].topRight.x    = oCords.topRight.x    + targetPoint.y/yRes + (n*targetPoint.x/xRes)/zRes;
+                        transform[n].topRight.y    = oCords.topRight.y    - targetPoint.x/xRes + (n*targetPoint.y/yRes)/zRes;
+
+                        transform[n].bottomLeft.x  = oCords.bottomLeft.x  + targetPoint.y/yRes + (n*targetPoint.x/xRes)/zRes;
+                        transform[n].bottomLeft.y  = oCords.bottomLeft.y  - targetPoint.x/xRes + (n*targetPoint.y/yRes)/zRes;
+
+                        transform[n].bottomRight.x = oCords.bottomRight.x - targetPoint.y/yRes + (n*targetPoint.x/xRes)/zRes;
+                        transform[n].bottomRight.y = oCords.bottomRight.y + targetPoint.x/xRes + (n*targetPoint.y/yRes)/zRes;
+
+                        transform[n].update();    
+                }
+            };
+            function setTheClock(){
+                if(gogo == true){
+                    var timer = setTimeout(function(){equalizer();}, 3);
+                }
+            }
+            function equalizer(){
+                targetPoint.x = (Math.floor(targetPoint.x)%2==0) ? Math.floor(targetPoint.x) : Math.floor(targetPoint.x) -1;
+                targetPoint.y = (Math.floor(targetPoint.y)%2==0) ? Math.floor(targetPoint.y) : Math.floor(targetPoint.y) -1;
+
+                var modo = 2
+                if(targetPoint.x != 0){
+                    if(targetPoint.x > 0){
+                        targetPoint.x -= modo;
+                    }else{
+                        targetPoint.x += modo;
+                    };
+                }
+                if(targetPoint.y != 0){
+                    if(targetPoint.y > 0){
+                        targetPoint.y -= modo;
+                    }else{
+                        targetPoint.y += modo;
+                    };
+                }
+                console.log(targetPoint.x + " " + targetPoint.y);
+                if(targetPoint.x == 0 && targetPoint.y == 0){
+                    gogo = false;
+                }
+                transformer();  
+                setTheClock();
+            };
+
+            //returns the transformed stack to normal on mouseout I wish I could animate this, but it's too many numbers
+            $("#proxyContainer").mouseout(function(e){
+                
+                if(gogo == false){
+                    gogo = true;
+                     setTheClock();
+                 }
+
+                // for(n=0; n < transform.length; n++){
+                    //Snap to old points Works
+
+                    //transform[n].topLeft.x     = oCords.topLeft.x
+                    // transform[n].topLeft.y     = oCords.topLeft.y
+                    // transform[n].topRight.x    = oCords.topRight.x
+                    // transform[n].topRight.y    = oCords.topRight.y
+                    // transform[n].bottomLeft.x  = oCords.bottomLeft.x
+                    // transform[n].bottomLeft.y  = oCords.bottomLeft.y
+                    // transform[n].bottomRight.x = oCords.bottomRight.x
+                    // transform[n].bottomRight.y = oCords.bottomRight.y
+                    //transform[n].update();
+
+                    //increment to old points works (too fast)
+
+                    // var positions= [
+                    // "topLeft",
+                    // "topRight",
+                    // "bottomLeft",
+                    // "bottomRight"
+                    // ]
+
+                    // jQuery.each(positions, function(i, l){
+                    //     while(transform[n][l].x < oCords[l].x){
+                    //         transform[n][l].x += 1;
+                    //         transform[n].update();
+                    //     }
+                    //      while(transform[n][l].x > oCords[l].x){
+                    //         transform[n][l].x -= 1;
+                    //         transform[n].update();
+                    //     }
+                    //     while(transform[n][l].y < oCords[l].y){
+                    //         transform[n][l].y += 1;
+                    //         transform[n].update();
+                    //     }
+                    //      while(transform[n][l].y > oCords[l].y){
+                    //         transform[n][l].y -= 1;
+                    //         transform[n].update();
+                    //     }
+                    // });  
+                // }
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,380 @@
+html, body{
+    width: 100%;
+    height: 100%;
+    background-image: -moz-radial-gradient(50% 50%, circle farthest-corner, #FFF 20%, #efeee7);
+    background-image: -webkit-radial-gradient(50% 50%, circle farthest-corner, #FFF 20%, #efeee7);
+    background-image: -o-radial-gradient(50% 50%, circle farthest-corner, #FFF 20%, #efeee7);
+    background-image: -ms-radial-gradient(50% 50%, circle farthest-corner, #FFF 20%, #efeee7);
+    background-image: radial-gradient(50% 50%, circle farthest-corner, #FFF 20%, #efeee7);
+}
+
+#Header{
+    font-family: "Helvetica",Georgia,Serif;
+    font-weight: bold;
+    text-shadow: #CCC -1px -1px 2px;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+#info-container{
+    position: absolute;
+    width: 512px;
+    left: 50%;
+    top: 50%;
+    margin-left: -387px;
+    margin-top: 8px;
+    font-family: "Times New Roman",Georgia,Serif;
+    font-style: italic;
+    font-weight: bold;
+    text-shadow: #CCC -1px -1px 2px;
+    text-align: center;
+}
+
+#Bgcontainer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -419px;
+    margin-top: -338px;
+    width: 584px;
+    height: 321px;
+    background-color: #d6d6d6;
+    
+    border-top-left-radius: 6px;
+    border-top-Right-radius: 6px;
+    
+    border: 1px solid #ebebeb;
+
+    -moz-box-shadow: 0 0 30px #CCC;
+    -webkit-box-shadow: 0 0 30px #CCC;
+    -o-box-shadow: 0 0 30px #CCC;
+    -ms-box-shadow: 0 0 30px #CCC;
+    box-shadow: 0 0 30px #CCC;
+}
+
+#layerTopper{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: 200px;
+    margin-top: -338px;
+    width: 200px;
+    height: 13px;
+    border-top-left-radius: 6px;
+    border-top-Right-radius: 6px;
+    background-image: linear-gradient(bottom, rgb(62,62,62) 18%, rgb(92,92,92) 50%);
+    background-image: -o-linear-gradient(bottom, rgb(62,62,62) 18%, rgb(92,92,92) 50%);
+    background-image: -moz-linear-gradient(bottom, rgb(62,62,62) 18%, rgb(92,92,92) 50%);
+    background-image: -webkit-linear-gradient(bottom, rgb(62,62,62) 18%, rgb(92,92,92) 50%);
+    background-image: -ms-linear-gradient(bottom, rgb(62,62,62) 18%, rgb(92,92,92) 50%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.18, rgb(62,62,62)),
+        color-stop(0.5, rgb(92,92,92))
+    );
+
+    border: 1px solid #282828;  
+    border-bottom: 1px solid #000;
+}
+
+#container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -400px;
+    margin-top: -296px;
+    width: 546px;
+    height: 260px;
+    background: url(../img/transparancyBg.png) repeat;
+    
+    
+    -moz-box-shadow: 0 0 30px #CCC;
+    -webkit-box-shadow: 0 0 30px #CCC;
+    -o-box-shadow: 0 0 30px #CCC;
+    -ms-box-shadow: 0 0 30px #CCC;
+    box-shadow: 0 0 30px #CCC;
+}
+
+#proxyContainer{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -400px;
+    margin-top: -296px;
+    width: 546px;
+    height: 260px;
+}
+
+#sliderx{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#slidery{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#sliderz{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#marker{
+    position: absolute;
+}
+
+#layerContainer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: 200px;
+    margin-top: -325px;
+    width: 200px;
+    /*height: 310px;*/
+    background-color: #d6d6d6;
+    
+    border: 1px solid #282828;
+    border-top: none;
+
+    -moz-box-shadow: 0 0 30px #CCC;
+    -webkit-box-shadow: 0 0 30px #CCC;
+    -o-box-shadow: 0 0 30px #CCC;
+    -ms-box-shadow: 0 0 30px #CCC;
+    box-shadow: 0 0 30px #CCC;
+}
+
+.xBtns{
+    margin: 2px 4px;
+    width: 192px;
+    height: 9px;
+    background: url(../img/layerBtns.png) top right no-repeat;
+}
+
+.selected{
+    background-image: url(../img/marchingAntsRight.gif), url(../img/marchingAntsDown.gif), url(../img/marchingAntsLeft.gif), url(../img/marchingAntsUp.gif);
+    background-position: left top, right top, left bottom; left top;
+    background-repeat: repeat-x, repeat-y;
+    border: none; 
+}
+
+.spacer{
+    padding: 1px;
+    margin: -1px;
+}
+
+.hr{
+    margin-top:2px;
+    margin-bottom:2px;
+    margin-left:10px;
+    height: 1px;
+    border-top: 1px solid #909090;
+    background: #e4e4e4;
+    width: 180px;
+}
+
+a.toggle, a.layerToggle{
+    display: block;
+    margin-left: 5px;
+    width: 22px;
+    height:22px;
+    background: url(../img/eyeball.png) no-repeat;
+    background-position: 0px 0px; 
+    cursor: pointer;
+    border-right: 1px solid #909090;
+}
+
+a.down{
+    background-position:-22px 0px;
+}
+
+.layer{
+    border-top: 1px solid #909090;
+    cursor: pointer;
+}
+
+.layerName, .folderName{
+    font-family: arial;
+    font-weight: bold;
+    font-size: .75em;
+    padding-left: 5px;
+    width: 167px;
+    height:22px;
+}
+
+.layerName.down{
+    background: #3399ff;
+    color:#fff;
+}
+
+.col.folderName{
+    background: url(../img/folder.png) top left no-repeat;
+}
+.col.folderName .closed{
+    background: url(../img/folderClosed.png) top left no-repeat;
+}
+.folder .layerName p{
+    padding-top: 4px;
+    padding-left: 25px;
+}
+.col.folderName p{
+    padding-top: 4px;
+    padding-left: 35px;
+}
+
+.finalLayer{
+    border-bottom: 1px solid #909090;
+}
+
+.LayerHeader{
+    height: 18px;
+    background: url(../img/layerHeader.png) top right no-repeat;
+}
+
+.LayerFooter{
+    height: 18px;
+    background: url(../img/layerFooter.png) top right no-repeat;
+}
+
+.bgAlignment{
+    padding:4px 2px 2px 2px;
+    font-family: arial;
+    color: #2e2e2e;
+}
+
+.row{
+    width:100%;
+    float:left;
+    clear:both;
+}
+
+.col{
+    float:left;
+    clear: none;
+}
+
+.center{
+    vertical-align: middle;
+}
+
+.wMiddleTop{
+    height:16px;
+    background-image: url(../img/top-corner.png), url(../img/vScroll.png), url(../img/hrulerBg.png);
+    background-position: left top, right top, 16px top;
+    background-repeat: no-repeat, no-repeat, repeat-x;
+}
+
+.wMiddleMiddle{
+    height:261px;
+    background-image: url(../img/vrulerBg.png), url(../img/vScrollB.png), url(../img/vScrollRepeat.png);
+    background-position: left top, bottom right, right top;
+    background-repeat: repeat-y, no-repeat, repeat-y;
+}
+
+.wMiddleBot{
+    height:16px;
+    background-image: url(../img/footerinfo.png), url(../img/hScrollL.png), url(../img/cornerPull.png), url(../img/hScrolRepeatl.png);
+    background-position: left top, 256px top, right top, left top;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat-x;
+}
+
+.psIco{
+    background: url(../img/PsSprites.png) no-repeat;
+    height:16px;
+    width: 16px;
+    background-position-x: 0px;
+    background-position-y: 0px;
+    margin-left: 4px;
+    margin-right: 4px; 
+}
+
+.aeroBtns{
+    background: url(../img/PsSprites.png) -178px 0px no-repeat;
+    height:18px;
+    width: 94px;
+    margin:2px;
+    float:right;
+}
+
+.img {
+    position: absolute;
+    width: 546px;
+    height: 260px;
+    border: 1px solid rgb(100, 100, 100); /* default color */
+    border: 1px solid rgba(0, 0, 0, 0.3); /* rgba for transparency */
+}
+
+.dynamic{
+    text-align: center;
+    font-weight: bold;
+    font-family: arial;
+    font-size: 2.5em;
+    color: #000;
+}
+
+.price{
+    /*text-align: right;
+    vertical-align: bottom;*/   
+}
+
+.price{
+    display:block;
+    position: absolute;
+    bottom: 30px;
+    right: 5px;
+    font-weight: bold;
+    font-family: arial;
+    /*padding-right: 5px;
+    padding-top: 170px;*/
+    font-size: 3.7em;
+    color: #fff;
+    text-shadow: 0.1em 0.1em #000
+}
+
+.layerimage{
+    width: 546px;
+    height: 260px;
+}
+
+.dynamicImg{
+    width:320px;
+    height:240px;
+    margin-top:11px;
+    margin-left: 17px;
+}
+.L1 {
+    background-image: url(../img/demo_0000s_0000_Layer-2.png);
+}
+.L2 {
+     background-repeat: no-repeat;
+    background-image: url(../img/demo_0000s_0000s_0004_img_car.png);
+}
+.L3 {
+    background-image: url(../img/demo_0000s_0000s_0003_ovr_bg.png);
+}
+.L4 {
+    background-image: url(../img/demo_0000s_0000s_0002_sPrice.png);
+}
+.L5 {
+    background-image: url(../img/demo_0000s_0000s_0001_sModel.png);
+}
+.L6 {
+    background-image: url(../img/demo_0000s_0000s_0000_ovr_glaze.png);
+}
+.highlight {
+    border: 1px solid #000;
+}
+.floatR{
+    float:right;
+}
+.Mb10px{
+    margin-bottom: 10px;
+}
+
+
+
+
+
